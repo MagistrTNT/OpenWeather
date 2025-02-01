@@ -4,6 +4,17 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <SignAssembly>True</SignAssembly>
+    <AssemblyOriginatorKeyFile>G:\source\Key\sgKeyMagistrTNT.snk</AssemblyOriginatorKeyFile>
+    <DelaySign>True</DelaySign>
+    <RepositoryUrl>https://github.com/MagistrTNT/OpenWeather.git</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/MagistrTNT/OpenWeather</PackageProjectUrl>
+    <Authors>MagistrTNT</Authors>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeSymbols>False</IncludeSymbols>
+    <PackageTags>Weathe, OpenWeathe, WebAPI</PackageTags>
+    <Description>Клиент для OpenWeather api</Description>
+    <PackageReleaseNotes>Запуск проекта</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
