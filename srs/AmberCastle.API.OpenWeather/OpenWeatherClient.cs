@@ -1,11 +1,8 @@
 ﻿// Ignore Spelling: API
 
+using AmberCastle.API.OpenWeather.Models;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http.Json;
 
 namespace AmberCastle.API.OpenWeather
 {
@@ -19,6 +16,47 @@ namespace AmberCastle.API.OpenWeather
         private readonly string _lang;
 
         #endregion // Поля
+
+        #region Методы
+
+        #region Geo 1.0
+        public async Task<WeatherLocation[]> GetLocation(string Name, int Limit = 5, IProgress<double> Progress = null, CancellationToken Cancel = default)
+        {
+            return await _Client
+                .GetFromJsonAsync<WeatherLocation[]>(
+                $"/geo/1.0/direct" +
+                $"?q={Name}" +
+                $"&limit={Limit}" +
+                $"&appid={_ApiKey}",
+                cancellationToken: Cancel)
+                .ConfigureAwait(false);
+        }
+
+        public async Task<WeatherLocation[]> GetLocation(string Name, string Country, int Limit = 5, string State = "", CancellationToken Cancel = default)
+        {
+            return await _Client
+                .GetFromJsonAsync<WeatherLocation[]>(
+                $"/geo/1.0/direct" +
+                $"?q={Name}" +
+                $",{State}" +
+                $",{Country}" +
+                $"&limit={Limit}" +
+                $"&appid={_ApiKey}",
+                cancellationToken: Cancel)
+                .ConfigureAwait(false);
+        }
+
+        public async Task<WeatherLocation[]> GetLocation(double lat, double lon, int limit = 1, CancellationToken Cancel = default)
+        {
+            return await _Client
+                .GetFromJsonAsync<WeatherLocation[]>($"/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={_ApiKey}", Cancel)
+                .ConfigureAwait(false);
+        }
+
+        #endregion // Geo 1.0
+
+        #endregion // Методы
+
 
         #region Конструктор
 
