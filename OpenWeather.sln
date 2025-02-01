@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{31F90939-A4E1-4F16-A642-504B15E85F00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmberCastle.API.OpenWeather.TestConsole", "test\AmberCastle.API.OpenWeather.TestConsole\AmberCastle.API.OpenWeather.TestConsole.csproj", "{84B24142-E2E3-438D-BAAC-1A57552A20B8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "srs", "srs", "{2F43125C-AD0C-42DD-B3D7-EBDCBCB79560}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AmberCastle.API.OpenWeather", "srs\AmberCastle.API.OpenWeather\AmberCastle.API.OpenWeather.csproj", "{6797F256-B2C1-4A53-B1DF-D869532324E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{84B24142-E2E3-438D-BAAC-1A57552A20B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{84B24142-E2E3-438D-BAAC-1A57552A20B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{84B24142-E2E3-438D-BAAC-1A57552A20B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{84B24142-E2E3-438D-BAAC-1A57552A20B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6797F256-B2C1-4A53-B1DF-D869532324E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6797F256-B2C1-4A53-B1DF-D869532324E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6797F256-B2C1-4A53-B1DF-D869532324E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6797F256-B2C1-4A53-B1DF-D869532324E2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{84B24142-E2E3-438D-BAAC-1A57552A20B8} = {31F90939-A4E1-4F16-A642-504B15E85F00}
+		{6797F256-B2C1-4A53-B1DF-D869532324E2} = {2F43125C-AD0C-42DD-B3D7-EBDCBCB79560}
+	EndGlobalSection
+EndGlobal
