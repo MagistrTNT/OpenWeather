@@ -19,6 +19,24 @@ namespace AmberCastle.API.OpenWeather
 
         #region Методы
 
+        #region data 2.5
+
+        public async Task<WeatherInfo> GetWeather(double lat, Double lon, CancellationToken Cancel = default)
+        {
+            return await _Client
+                .GetFromJsonAsync<WeatherInfo>(
+                $"/data/2.5/weather" +
+                $"?lat={lat}" +
+                $"&lon={lon}" +
+                $"&units={_Units}" +
+                $"&lang={_lang}" +
+                $"&appid={_ApiKey}"
+                , cancellationToken: Cancel)
+                .ConfigureAwait(false);
+        }
+
+        #endregion // data 2.5
+
         #region Geo 1.0
         public async Task<WeatherLocation[]> GetLocation(string Name, int Limit = 5, IProgress<double> Progress = null, CancellationToken Cancel = default)
         {

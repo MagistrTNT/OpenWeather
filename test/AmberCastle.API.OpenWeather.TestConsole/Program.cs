@@ -53,7 +53,7 @@ namespace AmberCastle.API.OpenWeather.TestConsole
             var location = await weather.GetLocation("Moscow", "ru");
             var location2 = await weather.GetLocation(51.5098, -0.1180);
 
-            //var wez = await weather.GetWeather(55.7522, 37.6156);
+            var wez = await weather.GetWeather(55.7522, 37.6156);
 
             Console.WriteLine("Завершение!");
             Console.ReadLine();
