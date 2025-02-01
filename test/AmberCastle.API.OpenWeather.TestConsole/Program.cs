@@ -1,7 +1,11 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿// Ignore Spelling: API
 
-namespace OpenWeather.TestConsole
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Polly;
+using Polly.Extensions.Http;
+
+namespace AmberCastle.API.OpenWeather.TestConsole
 {
     class Program
     {
@@ -17,35 +21,34 @@ namespace OpenWeather.TestConsole
 
         private static void ConfigureServices(HostBuilderContext context, IServiceCollection collection)
         {
-            //collection.AddHttpClient<OpenWeatherClient>(client =>
-            //{
-            //    var config = context.Configuration.GetSection("OpenWeatherAPI");
-            //    client.BaseAddress = new Uri(
-            //        $"{config["Schema"]}://" +
-            //        $"{config["Address"]}" +
-            //        $"/");
-            //})
-            //    .SetHandlerLifetime(TimeSpan.FromMinutes(5)) // время жизни клиента
-            //    .AddPolicyHandler(GetRetryPolicy())
-            //    ;
+            collection.AddHttpClient<OpenWeatherClient>(client =>
+            {
+                var config = context.Configuration.GetSection("OpenWeatherAPI");
+                client.BaseAddress = new Uri(
+                    $"{config["Schema"]}://" +
+                    $"{config["Address"]}" +
+                    $"/");
+            })
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5)) // время жизни клиента
+                .AddPolicyHandler(GetRetryPolicy());
         }
 
-        //private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
-        //{
-        //    var jitter = new Random();
-        //    return HttpPolicyExtensions
-        //        .HandleTransientHttpError()
-        //        .WaitAndRetryAsync(6, retry_attempt =>
-        //            TimeSpan.FromSeconds(Math.Pow(2, retry_attempt)) +
-        //            TimeSpan.FromMilliseconds(jitter.Next(0, 1000)));
-        //}
+        private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            var jitter = new Random();
+            return HttpPolicyExtensions
+                .HandleTransientHttpError()
+                .WaitAndRetryAsync(6, retry_attempt =>
+                    TimeSpan.FromSeconds(Math.Pow(2, retry_attempt)) +
+                    TimeSpan.FromMilliseconds(jitter.Next(0, 1000)));
+        }
 
         static async Task Main(string[] args)
         {
             using var host = Hosting;
             await host.StartAsync();
 
-            //var weather = Services.GetRequiredService<OpenWeatherClient>();
+            var weather = Services.GetRequiredService<OpenWeatherClient>();
 
             //var location = await weather.GetLocation("Moscow", "ru");
             //var location2 = await weather.GetLocation(51.5098, -0.1180);
