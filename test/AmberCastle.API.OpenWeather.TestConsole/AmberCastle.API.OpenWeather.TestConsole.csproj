@@ -16,4 +16,10 @@
     <ProjectReference Include="..\..\srs\AmberCastle.API.OpenWeather\AmberCastle.API.OpenWeather.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
