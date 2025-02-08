@@ -1,5 +1,7 @@
 ﻿// Ignore Spelling: API
 
+using AmberCastle.API.OpenWeather.Models;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Polly;
@@ -21,14 +23,11 @@ namespace AmberCastle.API.OpenWeather.TestConsole
 
         private static void ConfigureServices(HostBuilderContext context, IServiceCollection collection)
         {
+            var openWeatherConfigSection = context.Configuration.GetSection("OpenWeatherConfig");
+            collection.Configure<OpenWeatherConfig>(openWeatherConfigSection);
+
             collection.AddHttpClient<OpenWeatherClient>(client =>
-            {
-                var config = context.Configuration.GetSection("OpenWeatherAPI");
-                client.BaseAddress = new Uri(
-                    $"{config["Schema"]}://" +
-                    $"{config["Address"]}" +
-                    $"/");
-            })
+                client.BaseAddress = openWeatherConfigSection.Get<OpenWeatherConfig>().OpenWeatherUrl)
                 .SetHandlerLifetime(TimeSpan.FromMinutes(5)) // время жизни клиента
                 .AddPolicyHandler(GetRetryPolicy());
         }

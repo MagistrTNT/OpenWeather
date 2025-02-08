@@ -2,6 +2,8 @@
 
 using AmberCastle.API.OpenWeather.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using System;
 using System.Net.Http.Json;
 
 namespace AmberCastle.API.OpenWeather
@@ -11,11 +13,21 @@ namespace AmberCastle.API.OpenWeather
         #region Поля
 
         private readonly HttpClient _Client;
-        private readonly string _ApiKey;
-        private readonly string _Units;
-        private readonly string _lang;
+        private readonly OpenWeatherConfig _Config;
 
         #endregion // Поля
+
+        #region Конструктор
+
+        public OpenWeatherClient(HttpClient Client, IOptions<OpenWeatherConfig> options)
+        {
+            _Client = Client;
+            _Config = options.Value;
+        }
+
+        #endregion // Конструктор
+
+
 
         #region Методы
 
@@ -28,9 +40,9 @@ namespace AmberCastle.API.OpenWeather
                 $"/data/2.5/weather" +
                 $"?lat={lat}" +
                 $"&lon={lon}" +
-                $"&units={_Units}" +
-                $"&lang={_lang}" +
-                $"&appid={_ApiKey}"
+                $"&units={_Config.Units}" +
+                $"&lang={_Config.Lang}" +
+                $"&appid={_Config.ApiKey}"
                 , cancellationToken: Cancel)
                 .ConfigureAwait(false);
         }
@@ -45,7 +57,7 @@ namespace AmberCastle.API.OpenWeather
                 $"/geo/1.0/direct" +
                 $"?q={Name}" +
                 $"&limit={Limit}" +
-                $"&appid={_ApiKey}",
+                $"&appid={_Config.ApiKey}",
                 cancellationToken: Cancel)
                 .ConfigureAwait(false);
         }
@@ -59,15 +71,16 @@ namespace AmberCastle.API.OpenWeather
                 $",{State}" +
                 $",{Country}" +
                 $"&limit={Limit}" +
-                $"&appid={_ApiKey}",
+                $"&appid={_Config.ApiKey}",
                 cancellationToken: Cancel)
                 .ConfigureAwait(false);
         }
 
         public async Task<WeatherLocation[]> GetLocation(double lat, double lon, int limit = 1, CancellationToken Cancel = default)
         {
+            var stop = lat;
             return await _Client
-                .GetFromJsonAsync<WeatherLocation[]>($"/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={_ApiKey}", Cancel)
+                .GetFromJsonAsync<WeatherLocation[]>($"/geo/1.0/reverse?lat={lat}&lon={lon}&limit={limit}&appid={_Config.ApiKey}", Cancel)
                 .ConfigureAwait(false);
         }
 
@@ -75,18 +88,6 @@ namespace AmberCastle.API.OpenWeather
 
         #endregion // Методы
 
-
-        #region Конструктор
-
-        public OpenWeatherClient(HttpClient Client, IConfiguration config)
-        {
-            _Client = Client;
-            _ApiKey = config["OpenWeatherAPI:ApiKey"];
-            _Units = config["OpenWeatherAPI:Units"];
-            _lang = config["OpenWeatherAPI:lang"];
-        }
-
-        #endregion // Конструктор
 
     }
 }
